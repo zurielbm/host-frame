@@ -1,0 +1,351 @@
+Class: Debugger | Electron
+Skip to main content
+Electron
+Docs
+API
+Blog
+Tools
+Electron Forge
+Electron Fiddle
+Community
+Governance
+Showcase
+Resources
+Releases
+English
+English
+Deutsch
+Español
+Français
+日本語
+Português
+Русский
+中文
+Search
+Main Process Modules
+Renderer Process Modules
+Utility Process Modules
+Custom DOM Elements
+Chromium and Node.js
+Classes
+Class: ClientRequest
+Class: CommandLine
+Class: Cookies
+Class: Debugger
+Class: Dock
+Class: DownloadItem
+Class: Extensions
+Class: IncomingMessage
+Class: NavigationHistory
+Class: ServiceWorkerMain
+Class: ServiceWorkers
+Class: TouchBarButton
+Class: TouchBarColorPicker
+Class: TouchBarGroup
+Class: TouchBarLabel
+Class: TouchBarOtherItemsProxy
+Class: TouchBarPopover
+Class: TouchBarScrubber
+Class: TouchBarSegmentedControl
+Class: TouchBarSlider
+Class: TouchBarSpacer
+Class: WebRequest
+API Structures
+Classes
+Class: Debugger
+On this page
+Class: Debugger
+Class: Debugger
+​
+An alternate transport for Chrome's remote debugging protocol.
+Process:
+Main
+This class is not exported from the
+'electron'
+module. It is only available as a return value of other methods in the Electron API.
+Chrome Developer Tools has a
+special binding
+available at JavaScript
+runtime that allows interacting with pages and instrumenting them.
+const
+{
+BrowserWindow
+}
+=
+require
+(
+'electron'
+)
+const
+win
+=
+new
+BrowserWindow
+(
+)
+try
+{
+win
+.
+webContents
+.
+debugger
+.
+attach
+(
+'1.1'
+)
+}
+catch
+(
+err
+)
+{
+console
+.
+log
+(
+'Debugger attach failed : '
+,
+err
+)
+}
+win
+.
+webContents
+.
+debugger
+.
+on
+(
+'detach'
+,
+(
+event
+,
+reason
+)
+=>
+{
+console
+.
+log
+(
+'Debugger detached due to : '
+,
+reason
+)
+}
+)
+win
+.
+webContents
+.
+debugger
+.
+on
+(
+'message'
+,
+(
+event
+,
+method
+,
+params
+)
+=>
+{
+if
+(
+method
+===
+'Network.requestWillBeSent'
+)
+{
+if
+(
+params
+.
+request
+.
+url
+===
+'https://www.github.com'
+)
+{
+win
+.
+webContents
+.
+debugger
+.
+detach
+(
+)
+}
+}
+}
+)
+win
+.
+webContents
+.
+debugger
+.
+sendCommand
+(
+'Network.enable'
+)
+Instance Events
+​
+Event: 'detach'
+​
+Returns:
+event
+Event
+reason
+string - Reason for detaching debugger.
+Emitted when the debugging session is terminated. This happens either when
+webContents
+is closed or DevTools is invoked for the attached
+webContents
+.
+Event: 'message'
+​
+Returns:
+event
+Event
+method
+string - Method name.
+params
+any - Event parameters defined by the 'parameters'
+attribute in the remote debugging protocol.
+sessionId
+string - Unique identifier of attached debugging session,
+will match the value sent from
+debugger.sendCommand
+.
+Emitted whenever the debugging target issues an instrumentation event.
+Instance Methods
+​
+debugger.attach([protocolVersion])
+​
+protocolVersion
+string (optional) - Requested debugging protocol version.
+Attaches the debugger to the
+webContents
+.
+debugger.isAttached()
+​
+Returns
+boolean
+- Whether a debugger is attached to the
+webContents
+.
+debugger.detach()
+​
+Detaches the debugger from the
+webContents
+.
+debugger.sendCommand(method[, commandParams, sessionId])
+​
+method
+string - Method name, should be one of the methods defined by the
+remote debugging protocol
+.
+commandParams
+any (optional) - JSON object with request parameters.
+sessionId
+string (optional) - send command to the target with associated
+debugging session id. The initial value can be obtained by sending
+Target.attachToTarget
+message.
+Returns
+Promise<any>
+- A promise that resolves with the response defined by
+the 'returns' attribute of the command description in the remote debugging protocol
+or is rejected indicating the failure of the command.
+Send given command to the debugging target.
+note
+If
+sendCommand
+is called before the target has navigated (e.g.
+immediately after
+attach()
+), the returned promise may not resolve
+until navigation occurs.
+If the command's response has no
+result
+data, as defined by that
+command's entry in the remote debugging protocol, the promise
+resolves with an empty object (
+{}
+), not
+null
+or
+undefined
+.
+Edit this page
+Previous
+Class: Cookies
+Next
+Class: Dock
+Class: Debugger
+Instance Events
+'detach'
+'message'
+Instance Methods
+attach
+isAttached
+detach
+sendCommand
+Docs
+Getting Started
+API Reference
+Checklists
+Performance
+Security
+Tools
+Electron Forge
+Electron Fiddle
+Community
+Governance
+Resources
+Bluesky
+X
+Mastodon
+Stack Overflow
+More
+GitHub
+Open Collective
+Infrastructure Dashboard
+Copyright
+OpenJS Foundation
+and Electron contributors. All rights reserved. The
+OpenJS Foundation
+has registered trademarks and uses trademarks.  For a list of trademarks of the
+OpenJS Foundation
+, please see our
+Trademark Policy
+and
+Trademark List
+.  Trademarks and logos not indicated on the
+list of OpenJS Foundation trademarks
+are trademarks™ or registered® trademarks of their respective holders. Use of them does not imply any affiliation with or endorsement by them.
+The OpenJS Foundation
+|
+Terms of Use
+|
+Privacy Policy
+|
+Bylaws
+|
+Code of Conduct
+|
+Trademark Policy
+|
+Trademark List
+|
+Cookie Policy
+Hosting and infrastructure graciously provided by

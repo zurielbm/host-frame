@@ -1,0 +1,335 @@
+WebContentsView | Electron
+Skip to main content
+Electron
+Docs
+API
+Blog
+Tools
+Electron Forge
+Electron Fiddle
+Community
+Governance
+Showcase
+Resources
+Releases
+English
+English
+Deutsch
+Español
+Français
+日本語
+Português
+Русский
+中文
+Search
+Main Process Modules
+app
+autoUpdater
+BaseWindow
+BrowserView
+Deprecated
+BrowserWindow
+clipboard
+contentTracing
+crashReporter
+desktopCapturer
+dialog
+globalShortcut
+ImageView
+inAppPurchase
+ipcMain
+Menu
+MenuItem
+MessageChannelMain
+MessagePortMain
+nativeImage
+nativeTheme
+net
+netLog
+Notification
+powerMonitor
+powerSaveBlocker
+process
+protocol
+pushNotifications
+safeStorage
+screen
+session
+sharedTexture
+ShareMenu
+shell
+systemPreferences
+TouchBar
+Tray
+utilityProcess
+webContents
+WebContentsView
+webFrameMain
+View
+Renderer Process Modules
+Utility Process Modules
+Custom DOM Elements
+Chromium and Node.js
+Classes
+API Structures
+Main Process Modules
+WebContentsView
+On this page
+WebContentsView
+A View that displays a WebContents.
+Process:
+Main
+This module cannot be used until the
+ready
+event of the
+app
+module is emitted.
+const
+{
+BaseWindow
+,
+WebContentsView
+}
+=
+require
+(
+'electron'
+)
+const
+win
+=
+new
+BaseWindow
+(
+{
+width
+:
+800
+,
+height
+:
+400
+}
+)
+const
+view1
+=
+new
+WebContentsView
+(
+)
+win
+.
+contentView
+.
+addChildView
+(
+view1
+)
+view1
+.
+webContents
+.
+loadURL
+(
+'https://electronjs.org'
+)
+view1
+.
+setBounds
+(
+{
+x
+:
+0
+,
+y
+:
+0
+,
+width
+:
+400
+,
+height
+:
+400
+}
+)
+const
+view2
+=
+new
+WebContentsView
+(
+)
+win
+.
+contentView
+.
+addChildView
+(
+view2
+)
+view2
+.
+webContents
+.
+loadURL
+(
+'https://github.com/electron/electron'
+)
+view2
+.
+setBounds
+(
+{
+x
+:
+400
+,
+y
+:
+0
+,
+width
+:
+400
+,
+height
+:
+400
+}
+)
+Class: WebContentsView extends
+View
+​
+A View that displays a WebContents.
+Process:
+Main
+WebContentsView
+inherits from
+View
+.
+WebContentsView
+is an
+EventEmitter
+.
+warning
+Electron's built-in classes cannot be subclassed in user code.
+For more information, see
+the FAQ
+.
+new WebContentsView([options])
+​
+options
+Object (optional)
+webPreferences
+WebPreferences
+(optional) - Settings of web page's features.
+webContents
+WebContents
+(optional) - If present, the given WebContents will be adopted by the WebContentsView. A WebContents may only be presented in one WebContentsView at a time.
+Creates a WebContentsView.
+Instance Properties
+​
+Objects created with
+new WebContentsView
+have the following properties, in
+addition to those inherited from
+View
+:
+view.webContents
+Readonly
+​
+A
+WebContents
+property containing a reference to the displayed
+WebContents
+.
+Use this to interact with the
+WebContents
+, for instance to load a URL.
+const
+{
+WebContentsView
+}
+=
+require
+(
+'electron'
+)
+const
+view
+=
+new
+WebContentsView
+(
+)
+view
+.
+webContents
+.
+loadURL
+(
+'https://electronjs.org/'
+)
+Edit this page
+Previous
+webContents
+Next
+webFrameMain
+Class: WebContentsView extends
+View
+new WebContentsView([options])
+Instance Properties
+webContents
+Docs
+Getting Started
+API Reference
+Checklists
+Performance
+Security
+Tools
+Electron Forge
+Electron Fiddle
+Community
+Governance
+Resources
+Bluesky
+X
+Mastodon
+Stack Overflow
+More
+GitHub
+Open Collective
+Infrastructure Dashboard
+Copyright
+OpenJS Foundation
+and Electron contributors. All rights reserved. The
+OpenJS Foundation
+has registered trademarks and uses trademarks.  For a list of trademarks of the
+OpenJS Foundation
+, please see our
+Trademark Policy
+and
+Trademark List
+.  Trademarks and logos not indicated on the
+list of OpenJS Foundation trademarks
+are trademarks™ or registered® trademarks of their respective holders. Use of them does not imply any affiliation with or endorsement by them.
+The OpenJS Foundation
+|
+Terms of Use
+|
+Privacy Policy
+|
+Bylaws
+|
+Code of Conduct
+|
+Trademark Policy
+|
+Trademark List
+|
+Cookie Policy
+Hosting and infrastructure graciously provided by

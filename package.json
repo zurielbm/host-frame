@@ -1,0 +1,45 @@
+{
+  "name": "hostframe",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A Chromium workspace for testing multiple users across environments",
+  "main": "dist/main.cjs",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "start": "npm run build && node scripts/run-electron.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run build && tsx --test tests/*.test.ts",
+    "smoke": "npm run build && node scripts/run-electron.mjs --smoke-test",
+    "cli": "node dist/cli.cjs",
+    "mcp": "node dist/mcp.cjs",
+    "package": "npm run build && electron-builder --win dir"
+  },
+  "dependencies": {
+    "zod": "^4.2.0",
+    "@modelcontextprotocol/server": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "electron": "^44.4.3",
+    "electron-builder": "^26.0.12",
+    "esbuild": "^0.28.2",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "@modelcontextprotocol/client": "^2.0.0"
+  },
+  "build": {
+    "appId": "dev.roleframe.desktop",
+    "productName": "Hostframe",
+    "files": [
+      "dist/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "target": "dir",
+      "signAndEditExecutable": false
+    }
+  }
+}

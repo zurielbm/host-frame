@@ -1,0 +1,135 @@
+[
+  {
+    "name": "electron-views",
+    "url": "https://www.electronjs.org/docs/latest/api/web-contents-view",
+    "ok": true,
+    "excerpts": [
+      "WebContentsView | Electron\nSkip to main content\nElectron\nDocs\nAPI\nBlog\nTools\nElectron Forge\nElectron Fiddle\nCommunity\nGovernance\nShowcase\nResources\nReleases\nEnglish\nEnglish\nDeutsch\nEspa\u00f1ol\nFran\u00e7ais\n\u65e5\u672c\u8a9e\nPortugu\u00eas\n\u0420\u0443\u0441\u0441\u043a\u0438\u0439\n\u4e2d\u6587\nSearch\nMain Process Modules\napp\nautoUpdater\nBaseWindow\nBrowserView\nDeprecated\nBrowserWindow\nclipboard\ncontentTracing\ncrashReporter\ndesktopCapturer\ndialog\nglobalShortcut\nImageView\ninAppPurchase\nipcMain\nMenu\nMenuItem\nMessageChannelMain\nMessagePortMain\nnativeImage\nnativeTheme\nnet\nnetLog\nNotification\npowerMonitor\npowerSaveBlocker\nprocess\nprotocol\npushNotifications\nsafeStorage\nscreen\nsession\nsharedTexture\nShareMenu\nshell\nsystemP"
+    ]
+  },
+  {
+    "name": "electron-session",
+    "url": "https://www.electronjs.org/docs/latest/api/session",
+    "ok": true,
+    "excerpts": [
+      "rtition\n, it will be returned; otherwise a new\nSession\ninstance will be created with\noptions\n.\nIf\npartition\nstarts with\npersist:\n, the page will use a persistent session\navailable to all pages in the app with the same\npartition\n. if there is no\npersist:\nprefix, the page will use an in-memory session. If the\npartition\nis\nempty then default session of the app will be returned.\nTo create a\nSession\nwith\noptions\n, you have to ensure the\nSession\nwith the\npartition\nhas never been used before. There is no way to change the\noptions\nof an existing\nSession\nobject.\nsession.fromPath(path[, options])\n\u200b\npath\nstring\noptions\nObject (optional)\ncache\nboolean - Whether to enable cache. Default is\ntrue\nunless the\n--disable-http-cache\nswitch\nis used.\nReturns\nSession\n- A session ins",
+      "\nconsole\n.\nlog\n(\nses\n.\ngetUserAgent\n(\n)\n)\nMethods\n\u200b\nThe\nsession\nmodule has the following methods:\nsession.fromPartition(partition[, options])\n\u200b\npartition\nstring\noptions\nObject (optional)\ncache\nboolean - Whether to enable cache. Default is\ntrue\nunless the\n--disable-http-cache\nswitch\nis used.\nReturns\nSession\n- A session instance from\npartition\nstring. When there is an existing\nSession\nwith the same\npartition\n, it will be returned; otherwise a new\nSession\ninstance will be created with\noptions\n.\nIf\npartition\nstarts with\npersist:\n, the page will use a persistent session\navailable to all pages in the app with the same\npartition\n. if there is no\npersist:\nprefix, the page will use an in-memory session. If the\npartition\nis\nempty then default session of the app will be "
+    ]
+  },
+  {
+    "name": "electron-security",
+    "url": "https://www.electronjs.org/docs/latest/tutorial/security",
+    "ok": true,
+    "excerpts": [
+      "rity of your application. By updating Electron to the latest\nversion, you ensure that critical vulnerabilities (such as\nnodeIntegration bypasses\n)\nare already patched and cannot be exploited in your application. For more information,\nsee \"\nUse a current version of Electron\n\".\nEvaluate your dependencies.\nWhile NPM provides half a million reusable packages,\nit is your responsibility to choose trusted 3rd-party libraries. If you use outdated\nlibraries affected by known vulnerabilities or rely on poorly maintained code,\nyour application security could be in jeopardy.\nAdopt secure coding practices.\nThe first line of defense for your application\nis your own code. Common web vulnerabilities, such as Cross-Site Scripting (XSS),\nhave a higher security impact on Electro",
+      "play remote content, use\nthe\n<webview>\ntag or a\nWebContentsView\nand make sure to disable the\nnodeIntegration\nand enable\ncontextIsolation\n.\nElectron security warnings\nSecurity warnings and recommendations are printed to the developer console.\nThey only show up when the binary's name is Electron, indicating that a developer\nis currently looking at the console.\nYou can force-enable or force-disable these warnings by setting\nELECTRON_ENABLE_SECURITY_WARNINGS\nor\nELECTRON_DISABLE_SECURITY_WARNINGS\non\neither\nprocess.env\nor the\nwindow\nobject.\nChecklist: Security recommendations\n\u200b\nYou should at least follow these steps to improve the security of your application:\nOnly load secure content\nDo not enable Node.js integration for remote content\nEnable context isolation in a",
+      "rowser \u2014\nthe risks associated with the code we write are relatively small. Our websites\nare granted limited powers in a sandbox, and we trust that our users enjoy a\nbrowser built by a large team of engineers that is able to quickly respond to\nnewly discovered security threats.\nWhen working with Electron, it is important to understand that Electron is not\na web browser. It allows you to build feature-rich desktop applications with\nfamiliar web technologies, but your code wields much greater power. JavaScript\ncan access the filesystem, user shell, and more. This allows you to build\nhigh quality native applications, but the inherent security risks scale with\nthe additional powers granted to your code.\nWith that in mind, be aware that displaying arbitrary content "
+    ]
+  },
+  {
+    "name": "electron-debugger",
+    "url": "https://www.electronjs.org/docs/latest/api/debugger",
+    "ok": true,
+    "excerpts": [
+      ".\nurl\n===\n'https://www.github.com'\n)\n{\nwin\n.\nwebContents\n.\ndebugger\n.\ndetach\n(\n)\n}\n}\n}\n)\nwin\n.\nwebContents\n.\ndebugger\n.\nsendCommand\n(\n'Network.enable'\n)\nInstance Events\n\u200b\nEvent: 'detach'\n\u200b\nReturns:\nevent\nEvent\nreason\nstring - Reason for detaching debugger.\nEmitted when the debugging session is terminated. This happens either when\nwebContents\nis closed or DevTools is invoked for the attached\nwebContents\n.\nEvent: 'message'\n\u200b\nReturns:\nevent\nEvent\nmethod\nstring - Method name.\nparams\nany - Event parameters defined by the 'parameters'\nattribute in the remote debugging protocol.\nsessionId\nstring - Unique identifier of attached debugging session,\nwill match the value sent from\ndebugger.sendCommand\n.\nEmitted whenever the debugging target issues an instrumentation event",
+      "const\n{\nBrowserWindow\n}\n=\nrequire\n(\n'electron'\n)\nconst\nwin\n=\nnew\nBrowserWindow\n(\n)\ntry\n{\nwin\n.\nwebContents\n.\ndebugger\n.\nattach\n(\n'1.1'\n)\n}\ncatch\n(\nerr\n)\n{\nconsole\n.\nlog\n(\n'Debugger attach failed : '\n,\nerr\n)\n}\nwin\n.\nwebContents\n.\ndebugger\n.\non\n(\n'detach'\n,\n(\nevent\n,\nreason\n)\n=>\n{\nconsole\n.\nlog\n(\n'Debugger detached due to : '\n,\nreason\n)\n}\n)\nwin\n.\nwebContents\n.\ndebugger\n.\non\n(\n'message'\n,\n(\nevent\n,\nmethod\n,\nparams\n)\n=>\n{\nif\n(\nmethod\n===\n'Network.requestWillBeSent'\n)\n{\nif\n(\nparams\n.\nrequest\n.\nurl\n===\n'https://www.github.com'\n)\n{\nwin\n.\nwebContents\n.\ndebugger\n.\ndetach\n(\n)\n}\n}\n}\n)\nwin\n.\nwebContents\n.\ndebugger\n.\nsendCommand\n(\n'Network.enable'\n)\nInstance Events\n\u200b\nEvent: 'detach'\n\u200b\nReturns:\nevent\nEvent\nreason\nstring - Reason for detaching debugger.\nEmitted when the debu"
+    ]
+  },
+  {
+    "name": "electron-capture",
+    "url": "https://www.electronjs.org/docs/latest/api/web-contents",
+    "ok": true,
+    "excerpts": [
+      "\n'clearSelection'\n)\n}\n)\nconst\nrequestId\n=\nwin\n.\nwebContents\n.\nfindInPage\n(\n'api'\n)\nconsole\n.\nlog\n(\nrequestId\n)\ncontents.capturePage([rect, opts])\n\u200b\nrect\nRectangle\n(optional) - The area of the page to be captured.\nopts\nObject (optional)\nstayHidden\nboolean (optional) -  Keep the page hidden instead of visible. Default is\nfalse\n.\nstayAwake\nboolean (optional) -  Keep the system awake instead of allowing it to sleep. Default is\nfalse\n.\nReturns\nPromise<NativeImage>\n- Resolves with a\nNativeImage\nCaptures a snapshot of the page within\nrect\n. Omitting\nrect\nwill capture the whole visible page.\nThe page is considered visible when its browser window is hidden and the capturer count is non-zero.\nIf you would like the page to stay hidden, you should ensure that\nstayHidden\ni",
+      "\nwebContents\n.\nprint\n(\noptions\n,\n(\nsuccess\n,\nerrorType\n)\n=>\n{\nif\n(\n!\nsuccess\n)\nconsole\n.\nlog\n(\nerrorType\n)\n}\n)\ncontents.printToPDF(options)\n\u200b\noptions\nPrintToPDFOptions\nlandscape\nboolean (optional) - Paper orientation.\ntrue\nfor landscape,\nfalse\nfor portrait. Defaults to false.\ndisplayHeaderFooter\nboolean (optional) - Whether to display header and footer. Defaults to false.\nprintBackground\nboolean (optional) - Whether to print background graphics. Defaults to false.\nscale\nnumber(optional)  - Scale of the webpage rendering. Defaults to 1.\npageSize\nstring | Size (optional) - Specify page size of the generated PDF. Can be\nA0\n,\nA1\n,\nA2\n,\nA3\n,\nA4\n,\nA5\n,\nA6\n,\nLegal\n,\nLetter\n,\nTabloid\n,\nLedger\n, or an Object containing\nheight\nand\nwidth\nin inches. Defaults to\nLetter\n.\nm"
+    ]
+  },
+  {
+    "name": "electron-secrets",
+    "url": "https://www.electronjs.org/docs/latest/api/safe-storage",
+    "ok": true,
+    "excerpts": [
+      "m without user override. Therefore, content is protected from other users and other apps running in the same userspace.\nWindows\n: Encryption keys are generated via\nDPAPI\n. As per the Windows documentation: \"Typically, only a user with the same logon credential as the user who encrypted the data can typically decrypt the data\". Therefore, content is protected from other users on the same machine, but not from other apps running in the\nsame userspace.\nLinux\n: Encryption keys are generated and stored in a secret store that varies depending on your window manager and system setup. Options currently supported are\nkwallet\n,\nkwallet5\n,\nkwallet6\nand\ngnome-libsecret\n, but more may be available in future versions of Electron. As such, the\nsecurity semantics of content p",
+      "is protected from other users and other apps running in the same userspace.\nWindows\n: Encryption keys are generated via\nDPAPI\n. As per the Windows documentation: \"Typically, only a user with the same logon credential as the user who encrypted the data can typically decrypt the data\". Therefore, content is protected from other users on the same machine, but not from other apps running in the\nsame userspace.\nLinux\n: Encryption keys are generated and stored in a secret store that varies depending on your window manager and system setup. Options currently supported are\nkwallet\n,\nkwallet5\n,\nkwallet6\nand\ngnome-libsecret\n, but more may be available in future versions of Electron. As such, the\nsecurity semantics of content protected via the\nsafeStorage\nAPI vary betwee"
+    ]
+  },
+  {
+    "name": "playwright-contexts",
+    "url": "https://playwright.dev/docs/browser-contexts",
+    "ok": true,
+    "excerpts": [
+      "ons\nSupported languages\nGuides\nIsolation\nOn this page\nIsolation\nIntroduction\n\u200b\nTests written with Playwright execute in isolated clean-slate environments called browser contexts. This isolation model improves reproducibility and prevents cascading test failures.\nWhat is Test Isolation?\n\u200b\nTest Isolation is when each test is completely isolated from another test. Every test runs independently from any other test. This means that each test has its own local storage, session storage, cookies etc. Playwright achieves this using\nBrowserContext\ns which are equivalent to incognito-like profiles. They are fast and cheap to create and are completely isolated, even when running in a single browser. Playwright creates a context for each test, and provides a default\nPage\ni",
+      "very test runs independently from any other test. This means that each test has its own local storage, session storage, cookies etc. Playwright achieves this using\nBrowserContext\ns which are equivalent to incognito-like profiles. They are fast and cheap to create and are completely isolated, even when running in a single browser. Playwright creates a context for each test, and provides a default\nPage\nin that context.\nWhy is Test Isolation Important?\n\u200b\nNo failure carry-over. If one test fails it doesn't affect the other test.\nEasy to debug errors or flakiness, because you can run just a single test as many times as you'd like.\nDon't have to think about the order when running in parallel, sharding, etc.\nTwo Ways of Test Isolation\n\u200b\nThere are two different strate"
+    ]
+  },
+  {
+    "name": "playwright-electron",
+    "url": "https://playwright.dev/docs/api/class-electron",
+    "ok": true,
+    "excerpts": [
+      "et\nAndroidWebView\nElectron\nElectronApplication\nAPI reference\nExperimental\nElectron\nOn this page\nElectron\nPlaywright has\nexperimental\nsupport for Electron automation. You can access electron namespace via:\nconst\n{\n_electron\n}\n=\nrequire\n(\n'playwright'\n)\n;\nAn example of the Electron automation script would be:\nconst\n{\n_electron\n:\nelectron\n}\n=\nrequire\n(\n'playwright'\n)\n;\n(\nasync\n(\n)\n=>\n{\n// Launch Electron app.\nconst\nelectronApp\n=\nawait\nelectron\n.\nlaunch\n(\n{\nargs\n:\n[\n'main.js'\n]\n}\n)\n;\n// Evaluation expression in the Electron context.\nconst\nappPath\n=\nawait\nelectronApp\n.\nevaluate\n(\nasync\n(\n{\napp\n}\n)\n=>\n{\n// This runs in the main Electron process, parameter here is always\n// the result of the require('electron') in the main app script.\nreturn\napp\n.\ngetAppPath\n(\n)\n;\n}\n"
+    ]
+  },
+  {
+    "name": "zen-splits",
+    "url": "https://docs.zen-browser.app/user-manual/split-views",
+    "ok": false,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "name": "zen-containers",
+    "url": "https://docs.zen-browser.app/user-manual/container-tabs",
+    "ok": false,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "name": "arc-developer",
+    "url": "https://resources.arc.net/hc/en-us/articles/20468488031511-Developer-Mode-Instant-Dev-Tools",
+    "ok": false,
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "name": "webview2-profiles",
+    "url": "https://learn.microsoft.com/en-us/microsoft-edge/webview2/concepts/multi-profile-support",
+    "ok": true,
+    "excerpts": [
+      "Support multiple profiles under a single user data folder - Microsoft Edge Developer documentation | Microsoft Learn\nSkip to main content\nSkip to Ask Learn chat experience\nThis browser is no longer supported.\nUpgrade to Microsoft Edge to take advantage of the latest features, security updates, and technical support.\nDownload Microsoft Edge\nMore info about Internet Explorer and Microsoft Edge\nTable of contents\nExit editor mode\nAsk Learn\nAsk Learn\nReading mode\nTable of contents\nRead in English\nAdd\nAdd to Plans\nEdit\nCopy Markdown\nPrint\nNote\nAccess to this page requires authorization. You can try\nsigning in\nor\nchanging directories\n.\nAccess to this page requires a",
+      "Support multiple profiles under a single user data folder - Microsoft Edge Developer documentation | Microsoft Learn\nSkip to main content\nSkip to Ask Learn chat experience\nThis browser is no longer supported.\nUpgrade to Microsoft Edge to take advantage of the latest features, security updates, and technical support.\nDownload Microsoft Edge\nMore info about Internet Explorer and Microsoft Edge\nTable of contents\nExit editor mode\nAsk Learn\nAsk Learn\nReading mode\nTable of contents\nRead in English\nAdd\nAdd to Plans\nEdit\nCopy Markdown\nPrint\nNote\nAccess to this page requires authorization. You can try\nsigning in\nor\nchanging directories\n.\nAccess to this page requires authorization. You can try\nchanging"
+    ]
+  },
+  {
+    "name": "chrome-extension-cookies",
+    "url": "https://developer.chrome.com/docs/extensions/reference/api/cookies",
+    "ok": true,
+    "excerpts": [
+      "PS).\nsession\nboolean\nTrue if the cookie is a session cookie, as opposed to a persistent cookie with an expiration date.\nstoreId\nstring\nThe ID of the cookie store containing this cookie, as provided in getAllCookieStores().\nvalue\nstring\nThe value of the cookie.\nCookieDetails\nChrome 88+\nDetails to identify the cookie.\nProperties\nname\nstring\nThe name of the cookie to access.\npartitionKey\nCookiePartitionKey\noptional\nChrome 119+\nThe partition key for reading or modifying cookies with the Partitioned attribute.\nstoreId\nstring\noptional\nThe ID of the cookie store in which to look for the cookie. By default, the current execution context's cookie store will be used.\nurl\nstring\nThe URL with which the cookie to access is associated. This argument may be a full URL, in wh",
+      "d cookie from A can have different values on B and C.\nBy default, all API methods operate on unpartitioned cookies. The\npartitionKey\nproperty can be used to override this behavior.\nFor details on the general impact of partitioning for extensions, see\nStorage and Cookies\n.\nExamples\nYou can find a simple example of using the cookies API in the\nexamples/api/cookies\ndirectory. For other examples and for help in viewing\nthe source code, see\nSamples\n.\nTypes\nCookie\nRepresents information about an HTTP cookie.\nProperties\ndomain\nstring\nThe domain of the cookie (e.g. \"www.google.com\", \"example.com\").\nexpirationDate\nnumber\noptional\nThe expiration date of the cookie as the number of seconds since the UNIX epoch. Not provided for session cookies.\nhostOnly\nboolean\nTrue if t"
+    ]
+  },
+  {
+    "name": "claude-models",
+    "url": "https://platform.claude.com/docs/en/models/overview",
+    "ok": true,
+    "excerpts": [
+      "ase notes\n\ue04a\nAPI reference\n\ue053\nEnglish\n\ue027\n\ue04f\nConsole\nLog in\n\ue0d3\n\ue0d3\nSearch\nCtrl\nK\nModels\nModels overview\nClaude Fable 5.1\nClaude Opus 5\nClaude Sonnet 5\nClaude Haiku 4.5\nSpecialized models\n\ue02a\nLegacy models\n\ue02a\nGuides\nChoosing a model\nOptimizing for cost and intelligence\nUpgrade between model versions\nLifecycle and reference\nModel IDs and versioning\nModel deprecations\nModel cards\nPricing\nSystem prompts\n\ue04f\nConsole\nModels & pricing\n\ue02a\nModels\nModels overview\nClaude is a family of state-of-the-art large language models developed by Anthropic. Compare the current lineup, find the model ID for every platform, and open each model's page for its full specs and resources.\n\ue056\nCopy page\n\ue027\n\ue0e0\nChoosing a model\n\ue05f\nPricing\n\ue014\nMigration guide\n\ue056\nCopy page\n\ue027\nCompare models\n\ue09a\nIf you're unsure which",
+      "de API skill\nRelease notes\n\ue04a\nAPI reference\n\ue053\nEnglish\n\ue027\n\ue04f\nConsole\nLog in\n\ue0d3\n\ue0d3\nSearch\nCtrl\nK\nModels\nModels overview\nClaude Fable 5.1\nClaude Opus 5\nClaude Sonnet 5\nClaude Haiku 4.5\nSpecialized models\n\ue02a\nLegacy models\n\ue02a\nGuides\nChoosing a model\nOptimizing for cost and intelligence\nUpgrade between model versions\nLifecycle and reference\nModel IDs and versioning\nModel deprecations\nModel cards\nPricing\nSystem prompts\n\ue04f\nConsole\nModels & pricing\n\ue02a\nModels\nModels overview\nClaude is a family of state-of-the-art large language models developed by Anthropic. Compare the current lineup, find the model ID for every platform, and open each model's page for its full specs and resources.\n\ue056\nCopy page\n\ue027\n\ue0e0\nChoosing a model\n\ue05f\nPricing\n\ue014\nMigration guide\n\ue056\nCopy page\n\ue027\nCompare models\n\ue09a\nIf yo",
+      "I reference\n\ue053\nEnglish\n\ue027\n\ue04f\nConsole\nLog in\n\ue0d3\n\ue0d3\nSearch\nCtrl\nK\nModels\nModels overview\nClaude Fable 5.1\nClaude Opus 5\nClaude Sonnet 5\nClaude Haiku 4.5\nSpecialized models\n\ue02a\nLegacy models\n\ue02a\nGuides\nChoosing a model\nOptimizing for cost and intelligence\nUpgrade between model versions\nLifecycle and reference\nModel IDs and versioning\nModel deprecations\nModel cards\nPricing\nSystem prompts\n\ue04f\nConsole\nModels & pricing\n\ue02a\nModels\nModels overview\nClaude is a family of state-of-the-art large language models developed by Anthropic. Compare the current lineup, find the model ID for every platform, and open each model's page for its full specs and resources.\n\ue056\nCopy page\n\ue027\n\ue0e0\nChoosing a model\n\ue05f\nPricing\n\ue014\nMigration guide\n\ue056\nCopy page\n\ue027\nCompare models\n\ue09a\nIf you're unsure which model to use,"
+    ]
+  },
+  {
+    "name": "claude-config",
+    "url": "https://code.claude.com/docs/en/model-config",
+    "ok": true,
+    "excerpts": [
+      "ial value that clears any model override and reverts to the\nruntime default for your account\n. Not itself a model alias\nbest\nUses the model the\nfable\nalias resolves to\nwhere Fable is available to you, otherwise the same model as\nopus\nfable\nUses the\nFable model for your provider\nfor your hardest and longest-running tasks\nsonnet\nUses the latest Sonnet model for daily coding tasks\nopus\nUses the latest Opus model for complex reasoning tasks\nhaiku\nUses the fast and efficient Haiku model for simple tasks\nsonnet[1m]\nUses Sonnet with a\n1 million token context window\nfor long sessions. No effect when\nsonnet\nalready resolves to Sonnet 5 with its native 1M window; behind an\nLLM gateway\n, selects the 1M window for Sonnet 5\nopus[1m]\nUses Opus with a\n1 million token context",
+      "y model override and reverts to the\nruntime default for your account\n. Not itself a model alias\nbest\nUses the model the\nfable\nalias resolves to\nwhere Fable is available to you, otherwise the same model as\nopus\nfable\nUses the\nFable model for your provider\nfor your hardest and longest-running tasks\nsonnet\nUses the latest Sonnet model for daily coding tasks\nopus\nUses the latest Opus model for complex reasoning tasks\nhaiku\nUses the fast and efficient Haiku model for simple tasks\nsonnet[1m]\nUses Sonnet with a\n1 million token context window\nfor long sessions. No effect when\nsonnet\nalready resolves to Sonnet 5 with its native 1M window; behind an\nLLM gateway\n, selects the 1M window for Sonnet 5\nopus[1m]\nUses Opus with a\n1 million token context window\nfor long session",
+      "n model restrictions\nOrganization default model\nOrganization effort limits\nSpecial model behavior\ndefault model setting\nopusplan model setting\nFallback model chains\nAutomatic model fallback\nCheck what triggered fallback\nAsk before switching\nEnable fallback on Bedrock, Agent Platform, and Foundry\nSecurity research and biology workloads\nAdjust effort level\nChoose an effort level\nUse ultrathink for one-off deep reasoning\nSet the effort level\nAdaptive reasoning and fixed thinking budgets\nExtended thinking\nExtended context\nSonnet 5 context window\nContext window and auto-compaction\nSet the auto-compact window\nDefault auto-compact thresholds\nCorrect the window for a gateway or custom model ID\nChecking your current model\nAdd a custom model option\nEnvironment variables"
+    ]
+  },
+  {
+    "name": "mcp-security",
+    "url": "https://modelcontextprotocol.io/specification/draft/basic/security_best_practices",
+    "ok": false,
+    "error": "HTTP Error 308: Permanent Redirect"
+  }
+]

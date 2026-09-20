@@ -1,0 +1,96 @@
+Split View
+zen docs
+zen docs
+Search
+⌘
+K
+Introduction
+Documentation
+FAQ
+Privacy & Security
+Getting Started
+Guides
+User Manual
+Bookmarks
+Compact Mode
+Extensions
+Glance
+Picture-in-Picture
+Keyboard Shortcuts
+Split View
+Translations
+URL Bar & Search Functions
+Window Sync & Recovery
+Workspaces
+Developers
+Contribute
+Mods Registry
+Split View
+User Manual
+Split View
+Open multiple tabs side by side easily
+Zen's Split View lets you view up to 4 tabs side by side, so you can compare information or multitask easily.
+Creating split view
+You can create split view simply by open one tab, drag another tab from sidebar to left or right side of it, and drop once the split indicator placeholder is shown. You can also right click on a link and choose
+"Split link in new tab"
+.
+Using split view
+When split view is enabled, the active tab will have an overlay on its top side, containing two buttons:
+Drag Handle
+:::
+button and
+Unsplit Tab
+‒
+button.
+With
+Drag Handle
+:::
+button, you can move a split tab to various directions (left, bottom, right, or top side of another tabs).
+Meanwhile, clicking
+Unsplit Tab
+‒
+button will remove the tab and expand it outside the previous split view.
+Currently, you can
+unsplit all tabs within a split view
+by pressing
+Alt
++
+Ctrl
++
+U
+shortcut.
+Toggle Split View shortcuts
+Zen also provides keyboard shortcuts to help you rearrange the split tabs automatically into a horizontal, vertical, or grid layout.
+Toggle Split View Horizontal
+:
+Alt
++
+Ctrl
++
+H
+Toggle Split View Vertical
+:
+Alt
++
+Ctrl
++
+V
+Toggle Split View Grid
+:
+Alt
++
+Ctrl
++
+G
+You can also press one of the Toggle Split View shortcuts to split the current tab with the tab below it.
+All shortcuts can be modified via
+Settings > Keyboard Shortcuts
+.
+Keyboard Shortcuts
+Enhance your Zen experience with customizable keybinds
+Translations
+Translate webpages or text selections directly in Zen
+On this page
+Creating split view
+Using split view
+Toggle Split View shortcuts

@@ -1,0 +1,13 @@
+node_modules/
+dist/
+release/
+artifacts/
+*.log
+research/__pycache__/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+agent-connection.json
+vault.json
