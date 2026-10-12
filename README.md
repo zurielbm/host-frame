@@ -21,7 +21,45 @@ A workspace holds one app: its environments, users, credentials and browser sess
 
 Hosted auth providers (Clerk, Auth0, etc.) often redirect the login page through their own domain. Hostframe blocks cross-origin navigation by default; when that happens the pane bar shows **blocked · allow &lt;host&gt;**, and one click adds that origin to the environment's *Extra allowed origins* and reloads. Credentials are still only filled on the environment's own origin. Errors are written to `hostframe.log` in the app data folder.
 
+Saved login supports forms with both fields together and email-first flows such as Clerk: fill the email, click Continue, wait for the password, then submit. Configure the email selector for your form (for example `input[name="identifier"]` for Clerk) and a submit selector that matches both steps. Each step must remain on the app's origin. MFA, email codes, CAPTCHA and social sign-in require manual interaction.
+
 A new origin for an environment with existing accounts requires a new environment. Stored credentials must not silently move to another website. Other environments never supply fallback credentials.
+
+## Record and replay in another language
+
+Record a feature once in the language you work in, then replay it with the app switched to another language. The desktop view takes ¾ of the window and an emulated phone takes ¼. Every action runs on both.
+
+1. Press ● in the dock (or **Record actions** in a pane menu, or Ctrl+Shift+R) and use the page normally. The pane bar shows **REC** with a step count. Press ● again to stop.
+2. The step editor opens. Each step has a delay: the real pause you made while recording, capped between 0.3 and 3 s. Edit any delay, set the overall speed (0.5×–2×), and enter replacement text for anything you typed (for example "Arreglar fregadero" for "Fix sink"). You can also mark a step **Skip on phone**, or remove steps.
+3. Press **Replay web | mobile**, or ▶ next to a recording in the dock's Recordings list. Replay runs in two temporary copies of the account's session, so your own session and its language are not touched. Each step waits until both views have finished it. Use play/pause (Space), step back/forward, speed and **Exit replay** in the bar.
+
+Steps are matched by `data-testid`, `data-test`, `data-cy`, stable ids, `name`, link `href` or `aria-controls`, and never by visible text, so a button found in English is still found in Spanish. Steps with no stable attribute are flagged **fragile** in the editor; adding a `data-testid` to that element in your app makes the step reliable.
+
+**Dialogs and menus.** Inside a dialog, menu, listbox or popover, a step's position-based selector starts at that dialog (`[role="dialog"] > …`) instead of at `<body>`, where portaled dialogs land in a different order every session. React `useId` ids in every format (`:r3:`, `«r3»`, `_r_3_`) are treated as generated and never used. Pressing the backdrop to close a dialog is recorded as a **Close** step; replay presses Escape, and if the dialog stays open it taps the backdrop. Before acting, replay waits until the target is visible, on top and no longer moving, so it never presses a button while a dialog is still animating open or something else is covering it.
+
+**What viewers see.** On the web a pointer glides to each target, and on the phone a fingertip lands on it. A ring outlines the element about to be used, every press ripples, and Enter/Escape show a key badge. These are drawn above modal dialogs too. Targets that are already on screen aren't scrolled; others scroll smoothly into view. Part of each step's recorded pause is used for the pointer's movement, so the pace stays steady. Turn this off with **Show cursor & taps** in the step editor.
+
+**When a step fails.** The bar says which view failed, what went wrong and what to try. For example, it may point out that a Save button never appeared because the previous step changed nothing, or that a dialog is covering the target. Each failed view has three tools:
+- **Show matches** outlines what the step's selectors match in that view, numbered by selector. Orange means the match is covered.
+- **Inspect** opens DevTools for that view.
+- **Pick the right element** lets you click the element the step should use. Your click replaces the step's selectors, is saved, and counts as doing the step in that view; the other view retries with the new selectors. On the phone, when the target is hidden behind a menu, this becomes **I'll tap it on the phone** and saves a phone-only pre-step instead.
+
+**Details** shows:
+- what was clicked while recording (tag, attributes, text, the dialog it was in, and its position),
+- a timeline of what replay saw while it waited (for example "covered by div.overlay" from 0.4 s),
+- every selector with its match count, visibility and what covered it.
+
+While a view is still looking for its target, a blue line under the bar says what it sees right now. **Log** lists every step for both views with its outcome, time, the selector that matched and notes such as "already on" or "closed with Escape". Each failure also writes a report with both screenshots, recent page console errors, the wait timeline and step timings to `workspaces/<id>/replay-reports/` (the 30 most recent are kept). **Copy report** puts it on the clipboard; **Open report folder** shows it in Finder or Explorer.
+
+Clicks on things that don't look clickable, such as a heading or empty space (usually clicked to dismiss focus), are recorded as **optional**. Replay clicks the same spot, or skips the step if the element can't be found.
+
+If Hostframe is rebuilt while it is running, a red banner says so. Quit and start it again, because the running app still uses the old code.
+
+**Phone menus.** If a target exists on the phone but is hidden, for example a nav link collapsed behind ☰, replay taps the control that reveals it before continuing. It looks for `aria-controls`, then `aria-expanded` inside the header or nav, then common hamburger class and label patterns. If none is found, replay pauses on that step. Press **I'll tap it on the phone**, then tap the menu button yourself in the phone view. That tap is saved as a phone-only step and replay continues; later replays tap it automatically.
+
+**Language.** Replay always sends `Accept-Language` and overrides the browser locale (`navigator.language`, `Intl`). If your app reads the language from somewhere else, set it under **Environment settings → Replay language**: a cookie name (for example `NEXT_LOCALE`), a localStorage key (for example `i18nextLng`), or a language prefix as the first URL segment (`/en/jobs` → `/es/jobs`). If the language is saved on the user's profile on your server, replay with an account whose profile is set to that language.
+
+Replay really performs each action in both views, so a recorded **Save** saves twice. Use QA or Local data. Login pages and password fields are never recorded; signing in becomes a **Sign in** step that uses the vault. Recordings are stored per workspace in `workspaces/<id>/recordings/` and are available to agents through `recording_*` and `replay_*` tools.
 
 ## Implemented
 
@@ -74,7 +112,7 @@ This is a development preview, not a hardened general-purpose browser or audited
 - A password supplied by an agent is already known to that agent and may be retained in its transcript. Write-only storage cannot erase that history. The browser does not expose arbitrary JavaScript, cookie export, raw CDP, raw network logs or filesystem tools.
 - Windows DPAPI and the broker token do not isolate secrets from an independently privileged same-user process. The local pipe requires a random token stored under your user profile. Connect only trusted agents; current enable/pause is workspace-wide. Per-client account/environment grants remain future work.
 - Cross-origin top-level navigation requires an exact origin in the environment's Extra allowed origins. This supports hosted authentication redirects such as Clerk handshakes; popups, downloads and permission requests remain denied. OAuth, MFA and CAPTCHA automation are not implemented. Saved credentials are filled only on the environment's base origin. A compromised website receiving credentials can still expose them.
-- Screenshots require a visible rendered pane. Login-page capture is blocked; forms/inputs are masked elsewhere. Sensitive text outside forms can still appear. Full-page captures, composited workspace images, annotation, recordings and export management are not implemented yet.
+- Screenshots require a visible rendered pane. Login-page capture is blocked; forms/inputs are masked elsewhere. Sensitive text outside forms can still appear. Full-page captures, composited workspace images, annotation, video export of replays and export management are not implemented yet.
 - Registration recipes for browser-generated credentials, scenario runners, request/console diagnostics and stronger capability scoping remain follow-up work. No source-editing tools are included.
 - Temporary copies isolate browser storage, not backend accounts or databases. Same credentials still mean the same SaaS account. Copies are not restored after restart. In-memory cleanup is not a promise of forensic erasure or immediate process-memory shrinkage.
 - The demo server resets on restart, so demo users need to log in again. Demo credentials are public dummy values. Real SaaS sessions obey their own persistence and expiration policies. Unreadable real vault entries require replacement; no automatic credential recovery is promised.
@@ -98,7 +136,7 @@ node scripts/check-agent.mjs
 npm run package
 ```
 
-The smoke check uses a separate profile under `artifacts`, exercises actual Chromium sessions and Windows encryption, and briefly displays a window for capture. It checks independent identities, cross-user state, temporary-cookie isolation, copy-owned credential overrides, cleanup, screenshots and navigation restrictions. Local auth-provider fixtures also verify a blocked redirect, an explicitly allowed handshake round trip, rejection of other hosts, and refusal to fill saved credentials on the provider origin.
+The smoke check uses a separate profile under `artifacts`, exercises actual Chromium sessions and Windows encryption, and briefly displays a window for capture. It checks independent identities, cross-user state, temporary-cookie isolation, copy-owned credential overrides, cleanup, screenshots and navigation restrictions. It also records a flow in the English demo, replays it in Spanish on web and on a 393 px phone (opening the collapsed menu automatically), checks the per-language typed text, and saves `artifacts/replay-web.png` and `artifacts/replay-mobile.png`. The same flow opens a portaled, animated dialog, picks an option, saves it, then reopens the dialog and closes it from the backdrop. The smoke test checks that those steps are anchored to the dialog and replay on both views, and saves a mid-dialog frame as `artifacts/replay-dialog-*.png`. A deliberately broken step checks the failure explanation, the saved report and **Copy report**, which replaces your clipboard contents. Local auth-provider fixtures also verify a blocked redirect, an explicitly allowed handshake round trip, rejection of other hosts, and refusal to fill saved credentials on the provider origin.
 
 `npm test` rebuilds the adapter and checks both modern and legacy stdio connections against a private test broker, including the negotiated protocol, absence of a modern initialization handshake, catalog cache hints, argument validation/defaults, PNG content, and error redaction. It does not access the user's desktop or credentials.
 

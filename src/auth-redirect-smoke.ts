@@ -4,7 +4,7 @@ import { recipeSchema } from './contracts';
 
 // Invoked only by --smoke-test, using disposable profiles and local fixtures.
 export async function checkAuthRedirects(dispatch: (command: string, params: unknown) => Promise<any>) {
-  let base = '', provider = '', providerSubmissions = 0;
+  let base = '', provider = '', providerSubmissions = 0, twoStepSubmissions = 0;
   const form = '<form method="post"><input type="email"><input type="password"><button type="submit">Sign in</button></form>';
   const auth = createServer((req, res) => {
     res.setHeader('Cache-Control', 'no-store');
@@ -16,12 +16,28 @@ export async function checkAuthRedirects(dispatch: (command: string, params: unk
       res.end(form);
     }
   });
-  const site = createServer((req, res) => {
+  const site = createServer(async (req, res) => {
     res.setHeader('Cache-Control', 'no-store');
     if (req.url === '/login') res.writeHead(302, { Location: provider + '/handshake?return_to=' + encodeURIComponent(base + '/form') }).end();
     else if (req.url === '/blocked') res.writeHead(302, { Location: provider.replace('127.0.0.1', 'localhost') + '/handshake' }).end();
     else if (req.url === '/foreign-form') res.writeHead(302, { Location: provider + '/form' }).end();
-    else {
+    else if (req.url === '/two-step' || req.url === '/two-step-foreign') {
+      res.setHeader('Content-Type', 'text/html');
+      res.end(`<form method="post" action="/two-step-submit"><input type="email" name="email"><button type="submit">Continue</button></form><script>
+        const form=document.querySelector('form');
+        form.addEventListener('submit',function first(event){
+          event.preventDefault();form.removeEventListener('submit',first);
+          ${req.url === '/two-step-foreign' ? `location.href=${JSON.stringify(provider + '/form')};` : `setTimeout(()=>{form.querySelector('input').type='hidden';const password=document.createElement('input');password.type='password';password.name='password';form.prepend(password);},100);`}
+        });
+      </script>`);
+    } else if (req.url === '/two-step-submit' && req.method === 'POST') {
+      let body = ''; for await (const chunk of req) body += chunk;
+      const values = new URLSearchParams(body);
+      if (values.get('email') === 'redirect@example.test' && values.get('password') === 'local-fixture-only') {
+        twoStepSubmissions++;
+        res.setHeader('Content-Type', 'text/html');res.end('<main data-authenticated>Signed in</main>');
+      } else res.writeHead(400).end();
+    } else {
       res.setHeader('Content-Type', 'text/html');
       res.end(req.method === 'POST' ? '<main data-authenticated>Signed in</main>' : form);
     }
@@ -63,6 +79,16 @@ export async function checkAuthRedirects(dispatch: (command: string, params: unk
     await dispatch('environment_save', environment);
     await assert.rejects(dispatch('auth_login', { paneId }), /login_recipe_mismatch/, 'navigation permission does not grant credential filling permission');
     assert.equal(providerSubmissions, 0, 'provider form never receives credentials');
+
+    environment.recipe.path = '/two-step';
+    await dispatch('environment_save', environment);
+    assert.equal((await dispatch('auth_login', { paneId })).outcome, 'success_marker_observed', 'email-first login waits for the password step');
+    assert.equal(twoStepSubmissions, 1, 'both credentials reach the app once');
+
+    environment.recipe.path = '/two-step-foreign';
+    await dispatch('environment_save', environment);
+    await assert.rejects(dispatch('auth_login', { paneId }), /login_recipe_mismatch/, 'password step rechecks origin after the identifier redirect');
+    assert.equal(providerSubmissions, 0, 'password is never submitted to a different origin');
     await dispatch('account_delete', { accountId: account.id });
     await dispatch('user_delete', { userId: user.id });
   } finally {
